@@ -3,7 +3,12 @@ import asyncio
 import os
 import time
 import random
+import aiohttp
+import requests
+import safygiphy
+import io
 
+g = safygiphy.Giphy()
 client = discord.Client()
 version = "0.1"
 
@@ -33,7 +38,7 @@ async def on_ready():
 async def on_message(message):
 ##DOAÇÃO
     #avisofa
-    if message.content.startswith('/doação FA'):
+    if message.content.startswith('/doar FA'):
         role = discord.utils.get(message.server.roles, name='🕵️‍♂️ Doador')
         if not role in message.author.roles:
             return await client.send_message(message.channel, "Você precisa ter o cargo `Doador` para executar este comando!")
@@ -42,8 +47,8 @@ async def on_message(message):
             user = message.author
 
             embed = discord.Embed(
-                title=" 📢 AVISO 📢",
-                description="Será feito uma doação de contas de **Minecraft Full Acesso Unmigrated**, dentro de 2 minutos!",
+                title=" 📢 AVISO",
+                description="Será feito uma doação de contas de **Minecraft Full Acesso Unmigrated**, dentro de 1 minuto!",
                 color=0x0d488a
             )
             embed.set_footer(
@@ -51,12 +56,12 @@ async def on_message(message):
                 icon_url=user.avatar_url
             )
 
-            await client.send_message(message.channel, "@here")
-            await client.send_message(message.channel, embed=embed)
+            await client.send_message(discord.Object(id='458719859312820264'), "@everyone")
+            await client.send_message(discord.Object(id='458719859312820264'), embed=embed)
         finally:
             pass
     #avisoalt
-    if message.content.startswith('/doação ALT'):
+    if message.content.startswith('/doar ALT'):
         role = discord.utils.get(message.server.roles, name='🕵️‍♂️ Doador')
         if not role in message.author.roles:
             return await client.send_message(message.channel, "Você precisa ter o cargo `Doador` para executar este comando!")
@@ -66,7 +71,7 @@ async def on_message(message):
 
             embed = discord.Embed(
                 title=" 📢 AVISO",
-                description="Será feito uma doação de contas de **Minecraft ALTS**, dentro de 2 minutos!",
+                description="Será feito uma doação de contas de **Minecraft ALTS**, dentro de 1 minuto!",
                 color=0x0d488a
             )
             embed.set_footer(
@@ -74,12 +79,12 @@ async def on_message(message):
                 icon_url=user.avatar_url
             )
 
-            await client.send_message(message.channel, "@here")
-            await client.send_message(message.channel, embed=embed)
+            await client.send_message(discord.Object(id='4587198593128202641'), "@everyone")
+            await client.send_message(discord.Object(id='458719859312820264'), embed=embed)
         finally:
             pass
     #avisocapa
-    if message.content.startswith('/doação CAPA'):
+    if message.content.startswith('/doar CAPA'):
         role = discord.utils.get(message.server.roles, name='🕵️‍♂️ Doador')
         if not role in message.author.roles:
             return await client.send_message(message.channel, "Você precisa ter o cargo `Doador` para executar este comando!")
@@ -89,26 +94,48 @@ async def on_message(message):
 
             embed = discord.Embed(
                 title=" 📢 AVISO",
-                description="Será feito uma doação de contas de **Minecraft ALTS**, dentro de 2 minutos!",
+                description="Será feito uma doação de contas de **Minecraft ALTS**, dentro de 1 minuto!",
                 color=0x0d488a
             )
             embed.set_footer(
                 text="Enviado pelo doador: " + user.name,
                 icon_url=user.avatar_url
             )
-            await client.send_message(message.channel, "@here")
-            await client.send_message(message.channel, embed=embed)
+            await client.send_message(discord.Object(id='458719859312820264'), "@everyone")
+            await client.send_message(discord.Object(id='458719859312820264'), embed=embed)
         finally:
             pass
-    #doar
-    if message.content.startswith('/doação'):
+    #avisosemi
+    if message.content.startswith('/doar SEMI'):
         role = discord.utils.get(message.server.roles, name='🕵️‍♂️ Doador')
         if not role in message.author.roles:
             return await client.send_message(message.channel, "Você precisa ter o cargo `Doador` para executar este comando!")
         await client.delete_message(message)
         try:
             user = message.author
-            msg = message.content[8:]
+
+            embed = discord.Embed(
+                title=" 📢 AVISO",
+                description="Será feito uma doação de contas de **Minecraft Semi-Full**, dentro de 1 minuto!",
+                color=0x0d488a
+            )
+            embed.set_footer(
+                text="Enviado pelo doador: " + user.name,
+                icon_url=user.avatar_url
+            )
+            await client.send_message(discord.Object(id='458719859312820264'), "@everyone")
+            await client.send_message(discord.Object(id='458719859312820264'), embed=embed)
+        finally:
+            pass
+    #doar
+    if message.content.startswith('/doar'):
+        role = discord.utils.get(message.server.roles, name='🕵️‍♂️ Doador')
+        if not role in message.author.roles:
+            return await client.send_message(message.channel, "Você precisa ter o cargo `Doador` para executar este comando!")
+        await client.delete_message(message)
+        try:
+            user = message.author
+            msg = message.content[6:]
 
             embed = discord.Embed(
                 title="⚠ Doação!",
@@ -116,14 +143,15 @@ async def on_message(message):
                 color=0x003aff
             )
             embed.set_footer(
-                text="Enviado pelo doador: " + user.name,
+                text="Enviada pelo doador: " + user.name,
                 icon_url=user.avatar_url
             )
 
-            await client.send_message(message.channel, "@here")
-            await client.send_message(message.channel, embed=embed)
+            await client.send_message(discord.Object(id='458719859312820264'), "@everyone")
+            await client.send_message(discord.Object(id='458719859312820264'), embed=embed)
         finally:
             pass
+
 ##DEFAULT_COMMANDS
     #comandos
     if message.content.lower().startswith('!comandos'):
@@ -138,7 +166,10 @@ async def on_message(message):
                         "!convite » Gere um convite e use o mesmo para convidar todos para nossa comunidade\n"
                         "!ping » Veja o tempo de resposta do bot\n"
                         "!staff » Veja os comandos para o cargo `👤 Staff (apenas para quem tem o cargo).\n"
-                        "!admin » Veja os comandos para a permissão `administrador` (apenas para quem tem a permissão)."
+                        "!admin » Veja os comandos para a permissão `administrador` (apenas para quem tem a permissão).\n"
+                        "!gif <título> » Gere um gif.\n"
+                        "!cat » Gere uma foto ou um vídeo/gif de um gato.\n"
+                        "!dog » Gere uma foto ou um vídeo/gif de um cão.\n\n"
                         "**Desenvolvido pelo Bruno. Mais informações aqui:** [Clique](https://twitter.com/brunoqq_)"
         )
         embed.set_author(
@@ -156,6 +187,40 @@ async def on_message(message):
         await client.send_message(message.channel, "Olá {}, foi enviado a lista de comandos no seu privado!".format(
             message.author.mention))
         await client.send_message(message.author, embed=embed)
+
+    #GERA UM GIF/VÍDEO ALEATÓRIO DE GATO
+    if message.content.lower().startswith('!cat'):
+     async with aiohttp.get('http://aws.random.cat/meow') as r:
+         if r.status == 200:
+             js = await r.json()
+             canal = message.channel
+             await client.delete_message(message)
+             await client.send_message(canal, js['file'])
+    #CAO
+    if message.content.lower().startswith('!dog'):
+     async with aiohttp.get('https://random.dog/woof.json') as r:
+         if r.status == 200:
+             js = await r.json()
+             canal = message.channel
+             await client.delete_message(message)
+             await client.send_message(canal, js['url'])
+#GERA UM GIF
+    if message.content.startswith('!gif'):
+        gif_tag = message.content[5:]
+        rgif = g.random(tag=str(gif_tag))
+        response = requests.get(
+            str(rgif.get("data", {}).get('image_original_url')), stream=True
+        )
+        await client.send_file(message.channel, io.BytesIO(response.raw.read()), filename='video.gif')
+
+#GERA UM GIF DIVERTIDO
+    if message.content.startswith('!fun'):
+        gif_tag = "fun"
+        rgif = g.random(tag=str(gif_tag))
+        response = requests.get(
+            str(rgif.get("data", {}).get('image_original_url')), stream=True
+        )
+        await client.send_file(message.channel, io.BytesIO(response.raw.read()), filename='video.gif')
     #avatar
     elif message.content.lower().startswith('!avatar'):
         try:
@@ -261,6 +326,7 @@ async def on_message(message):
      invite = await client.create_invite(message.channel, max_uses=1, xkcd=True)
      await client.send_message(message.author, "Seu convite para o discord do BielSwift é: discord.gg/bielswift")
      await client.send_message(message.channel, "Olá {}, um convite foi enviado no seu privado!".format(message.author.mention))
+
 ##admin
     #admin
     if message.content.lower().startswith('!admin'):
@@ -416,7 +482,7 @@ async def on_message(message):
             url="https://cdn.discordapp.com/attachments/423159064533532672/424213167317712946/dsg.png"
         )
 
-        await client.send_message(message.channel, "Olá {}, foi enviado todos os comandos para o cargo `👤 Staff no seu privado!".format(message.author.mention))
+        await client.send_message(message.channel, "Olá {}, foi enviado todos os comandos para o cargo `👤 Staff` no seu privado!".format(message.author.mention))
         await client.send_message(message.author, embed=embed)
     #ban
     elif message.content.lower().startswith('!ban'):
@@ -490,11 +556,11 @@ async def on_member_join(member):
       grupo = discord.utils.find(lambda g: g.name == "🍔 Boladão", member.server.roles)
       await client.add_roles(member, grupo)
 
-      channel = client.get_channel('455778597844680714')
+      channel = client.get_channel('457325553922473984')
       serverchannel = member.server.default_channel
       embedmsg = discord.Embed(
           title="Olá {}!".format(member.name),
-          description="🍔 Bem vindo ao **BielSwift Discord**, divirta-se com a turma dos(as) boladões/boladonas! ",
+          description="🍔 Bem vindo ao **BielSwift Discord**, divirta-se com a turma dos boladões!",
           color=0x0d488a,
       )
       embedmsg.set_thumbnail(url=member.avatar_url)
