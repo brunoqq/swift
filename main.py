@@ -32,7 +32,7 @@ async def on_ready():
     print (client.user.name)
     print(f"Bot Version: {version}")
     print("=================================")
-    await client.change_presence(game=discord.Game(name='RankUP e Gravando! | !comandos'), status=discord.Status.dnd)
+    await client.change_presence(game=discord.Game(name='e gravando! | !comandos'), status=discord.Status.dnd)
 
 @client.event
 async def on_message(message):
