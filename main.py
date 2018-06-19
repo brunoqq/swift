@@ -36,6 +36,9 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    if message.channel.id == ("458719859312820264"):
+        await client.add_reaction(message, "✔")
+        await client.add_reaction(message, "❌")
 ##DOAÇÃO
     #avisofa
     if message.content.startswith('/doar FA'):
